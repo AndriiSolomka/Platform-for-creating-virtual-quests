@@ -8,9 +8,23 @@ import { PrismaModule } from './prisma/prisma.module';
 import { LoggerModule } from './logger/logger.module';
 import { UserModule } from './user/user.module';
 import { HttpLoggerMiddleware } from './common/middlewares/http-logger.middleware';
+import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
+import { CustomJwtModule } from './custom-jwt/custom-jwt.module';
+import { CookieModule } from './cookie/cookie.module';
 
 @Module({
-  imports: [PrismaModule, LoggerModule, UserModule],
+  imports: [
+    PrismaModule,
+    LoggerModule,
+    UserModule,
+    AuthModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    CustomJwtModule,
+    CookieModule,
+  ],
   controllers: [],
   providers: [],
 })
