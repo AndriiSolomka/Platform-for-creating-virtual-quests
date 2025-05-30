@@ -2,7 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { hashPassword } from 'src/utils/password/hash';
 import { UserRepository } from './user.repository';
-import { UserAlreadyExistsException } from 'src/common/exception/user.exception';
+import {
+  UserAlreadyExistsException,
+  UserNotFoundException,
+} from 'src/common/exceptions/user.exceptions';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class UserService {
@@ -22,8 +26,19 @@ export class UserService {
     return `User "${dto.name}" created successfully`;
   }
 
-  private async ensureUserNotExists(email: string): Promise<void> {
+  async ensureUserNotExists(email: string): Promise<void> {
     const user = await this.userRepository.findByEmail(email);
     if (user) throw new UserAlreadyExistsException(email);
+  }
+
+  async findOneByEmail(email: string): Promise<User> {
+    const user = await this.userRepository.findByEmail(email);
+    if (!user) throw new UserNotFoundException(email);
+    return user;
+  }
+  async findOneById(id: number): Promise<User> {
+    const user = await this.userRepository.findById(id);
+    if (!user) throw new UserNotFoundException(`ID: ${id}`);
+    return user;
   }
 }
