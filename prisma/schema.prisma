@@ -1,0 +1,76 @@
+// schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int        @id @default(autoincrement())
+  email     String     @unique
+  password  String
+  name      String
+  avatarUrl String?
+  quests    Quest[]
+  progress  Progress[]
+
+  @@map("user")
+}
+
+model Quest {
+  id          Int        @id @default(autoincrement())
+  title       String
+  description String?
+  author_id   Int        @map("author_id")
+  author      User       @relation(fields: [author_id], references: [id])
+  questions   Question[]
+  createdAt   DateTime   @default(now())
+  Progress    Progress[]
+
+  @@map("quest")
+}
+
+model Question {
+  id       Int          @id @default(autoincrement())
+  quest_id Int          @map("quest_id")
+  quest    Quest        @relation(fields: [quest_id], references: [id])
+  type     QuestionType
+  content  String
+  imageUrl String?
+  options  Option[]
+  answer   String?
+
+  @@map("question")
+}
+
+model Option {
+  id          Int      @id @default(autoincrement())
+  question_id Int      @map("question_id")
+  question    Question @relation(fields: [question_id], references: [id])
+  text        String
+  isCorrect   Boolean
+
+  @@map("option")
+}
+
+model Progress {
+  id        Int      @id @default(autoincrement())
+  user_id   Int      @map("user_id")
+  quest_id  Int      @map("quest_id")
+  user      User     @relation(fields: [user_id], references: [id])
+  quest     Quest    @relation(fields: [quest_id], references: [id])
+  startedAt DateTime @default(now())
+  completed Boolean  @default(false)
+
+  @@map("progress")
+}
+
+enum QuestionType {
+  OPEN
+  MULTIPLE_CHOICE
+  IMAGE_SEARCH
+}
