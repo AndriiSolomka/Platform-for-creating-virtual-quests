@@ -57,4 +57,10 @@ export class UserService {
   async deleteUnconfirmedUsers(): Promise<void> {
     await this.userRepository.deleteUnconfirmed();
   }
+
+  async createByGoogle(profile: CreateUserDto) {
+    const user = await this.userRepository.findByEmail(profile.email);
+    if (!user) return await this.userRepository.create(profile);
+    return user;
+  }
 }

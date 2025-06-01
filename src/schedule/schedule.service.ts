@@ -8,7 +8,6 @@ export class ScheduleService {
 
   @Cron(CronExpression.EVERY_MINUTE)
   async deleteUnconfirmedUsers(): Promise<void> {
-    console.log('Running scheduled task to delete unconfirmed users');
     await this.userService.deleteUnconfirmedUsers();
   }
 }

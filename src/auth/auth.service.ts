@@ -1,4 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { EmailConfirmException } from 'src/common/exceptions/user.exceptions';
+import { GoogleUser } from 'src/constants/interfaces/auth/auth.interface';
 import { UserSafe } from 'src/constants/types/user/user.type';
 import { CustomJwtService } from 'src/custom-jwt/custom-jwt.service';
 import { UserService } from 'src/user/user.service';
@@ -25,5 +27,10 @@ export class AuthService {
       return result;
     }
     return null;
+  }
+
+  async validateGoogleUser(profile: GoogleUser) {
+    if (!profile.is_email_confirm) throw new EmailConfirmException();
+    return await this.userService.createByGoogle(profile);
   }
 }
