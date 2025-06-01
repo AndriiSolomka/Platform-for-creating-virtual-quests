@@ -12,6 +12,10 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { CustomJwtModule } from './custom-jwt/custom-jwt.module';
 import { CookieModule } from './cookie/cookie.module';
+import { EmailModule } from './email/email.module';
+import { EmailConfirmTokenModule } from './email-confirm-token/email-confirm-token.module';
+import { ScheduleModule as ScheduleNestModule } from '@nestjs/schedule';
+import { ScheduleModule } from './schedule/schedule.module';
 
 @Module({
   imports: [
@@ -22,8 +26,12 @@ import { CookieModule } from './cookie/cookie.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    ScheduleNestModule.forRoot(),
     CustomJwtModule,
     CookieModule,
+    EmailModule,
+    EmailConfirmTokenModule,
+    ScheduleModule,
   ],
   controllers: [],
   providers: [],
