@@ -8,7 +8,7 @@ import { CookieModule } from 'src/cookie/cookie.module';
 import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
-  imports: [UserModule, CustomJwtModule, CookieModule],
+  imports: [UserModule, CustomJwtModule, CookieModule, UserModule],
   providers: [AuthService, LocalStrategy, JwtStrategy],
   controllers: [AuthController],
 })
