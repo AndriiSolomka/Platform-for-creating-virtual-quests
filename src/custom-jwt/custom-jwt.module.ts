@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { CustomJwtService } from './custom-jwt.service';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       }),
     }),
   ],
-  exports: [JwtModule],
+  exports: [JwtModule, CustomJwtService],
+  providers: [CustomJwtService],
 })
 export class CustomJwtModule {}
