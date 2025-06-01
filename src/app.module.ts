@@ -1,10 +1,45 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { PrismaModule } from './prisma/prisma.module';
 import { LoggerModule } from './logger/logger.module';
+import { UserModule } from './user/user.module';
+import { HttpLoggerMiddleware } from './common/middlewares/http-logger.middleware';
+import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
+import { CustomJwtModule } from './custom-jwt/custom-jwt.module';
+import { CookieModule } from './cookie/cookie.module';
+import { EmailModule } from './email/email.module';
+import { EmailConfirmTokenModule } from './email-confirm-token/email-confirm-token.module';
+import { ScheduleModule as ScheduleNestModule } from '@nestjs/schedule';
+import { ScheduleModule } from './schedule/schedule.module';
 
 @Module({
-  imports: [PrismaModule, LoggerModule],
+  imports: [
+    PrismaModule,
+    LoggerModule,
+    UserModule,
+    AuthModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    ScheduleNestModule.forRoot(),
+    CustomJwtModule,
+    CookieModule,
+    EmailModule,
+    EmailConfirmTokenModule,
+    ScheduleModule,
+  ],
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(HttpLoggerMiddleware)
+      .forRoutes({ path: '/*api', method: RequestMethod.ALL });
+  }
+}
