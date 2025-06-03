@@ -12,6 +12,9 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { CustomJwtModule } from './custom-jwt/custom-jwt.module';
 import { CookieModule } from './cookie/cookie.module';
+import { QuestModule } from './quest/quest.module';
+import { QuestionModule } from './question/question.module';
+import { MediaModule } from './media/media.module';
 import { EmailModule } from './email/email.module';
 import { EmailConfirmTokenModule } from './email-confirm-token/email-confirm-token.module';
 import { ScheduleModule as ScheduleNestModule } from '@nestjs/schedule';
@@ -29,6 +32,9 @@ import { ScheduleModule } from './schedule/schedule.module';
     ScheduleNestModule.forRoot(),
     CustomJwtModule,
     CookieModule,
+    QuestModule,
+    QuestionModule,
+    MediaModule,
     EmailModule,
     EmailConfirmTokenModule,
     ScheduleModule,
