@@ -12,6 +12,9 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { CustomJwtModule } from './custom-jwt/custom-jwt.module';
 import { CookieModule } from './cookie/cookie.module';
+import { QuestModule } from './quest/quest.module';
+import { QuestionModule } from './question/question.module';
+import { MediaModule } from './media/media.module';
 
 @Module({
   imports: [
@@ -24,6 +27,9 @@ import { CookieModule } from './cookie/cookie.module';
     }),
     CustomJwtModule,
     CookieModule,
+    QuestModule,
+    QuestionModule,
+    MediaModule,
   ],
   controllers: [],
   providers: [],
