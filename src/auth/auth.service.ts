@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import { EmailConfirmException } from 'src/common/exceptions/user.exceptions';
+import { GoogleUser } from 'src/constants/interfaces/auth/auth.interface';
 import { UserSafe } from 'src/constants/types/user/user.type';
+import { CustomJwtService } from 'src/custom-jwt/custom-jwt.service';
 import { UserService } from 'src/user/user.service';
 import { validatePassword } from 'src/utils/password/hash';
 
@@ -8,12 +10,12 @@ import { validatePassword } from 'src/utils/password/hash';
 export class AuthService {
   constructor(
     private userService: UserService,
-    private readonly jwtService: JwtService,
+    private readonly jwtService: CustomJwtService,
   ) {}
 
-  login(user_id: number): { access_token: string } {
-    const payload = { user_id, sub: user_id };
-    return { access_token: this.jwtService.sign(payload) };
+  async login(user_id: number): Promise<{ access_token: string }> {
+    const token = await this.jwtService.sign(user_id);
+    return { access_token: token };
   }
 
   async validateUser(email: string, password: string): Promise<UserSafe> {
@@ -25,5 +27,10 @@ export class AuthService {
       return result;
     }
     return null;
+  }
+
+  async validateGoogleUser(profile: GoogleUser) {
+    if (!profile.is_email_confirm) throw new EmailConfirmException();
+    return await this.userService.createByGoogle(profile);
   }
 }

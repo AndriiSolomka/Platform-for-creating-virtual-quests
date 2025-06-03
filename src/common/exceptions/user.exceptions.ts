@@ -11,3 +11,9 @@ export class UserNotFoundException extends NotFoundException {
     super(`User with email "${email}" not found`);
   }
 }
+
+export class EmailConfirmException extends NotFoundException {
+  constructor() {
+    super('User email is not confirmed');
+  }
+}

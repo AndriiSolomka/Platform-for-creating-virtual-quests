@@ -15,6 +15,10 @@ import { CookieModule } from './cookie/cookie.module';
 import { QuestModule } from './quest/quest.module';
 import { QuestionModule } from './question/question.module';
 import { MediaModule } from './media/media.module';
+import { EmailModule } from './email/email.module';
+import { EmailConfirmTokenModule } from './email-confirm-token/email-confirm-token.module';
+import { ScheduleModule as ScheduleNestModule } from '@nestjs/schedule';
+import { ScheduleModule } from './schedule/schedule.module';
 
 @Module({
   imports: [
@@ -25,11 +29,15 @@ import { MediaModule } from './media/media.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    ScheduleNestModule.forRoot(),
     CustomJwtModule,
     CookieModule,
     QuestModule,
     QuestionModule,
     MediaModule,
+    EmailModule,
+    EmailConfirmTokenModule,
+    ScheduleModule,
   ],
   controllers: [],
   providers: [],
