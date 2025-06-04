@@ -29,7 +29,7 @@ describe('UserController', () => {
         email: 'test@mail.com',
         password: '123',
       } as any;
-      const createdUser = { id: 1, ...dto };
+      const createdUser = { message: 'User created successfully' };
       userService.create.mockResolvedValue(createdUser);
 
       const result = await controller.create(dto);
