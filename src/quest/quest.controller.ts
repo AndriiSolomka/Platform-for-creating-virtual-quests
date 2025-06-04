@@ -1,8 +1,8 @@
 import { QuestService } from './quest.service';
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { CreateQuestDto } from './dto/create-quest.dto';
-import { UserId } from 'src/common/decorators/user_id.decorator';
-import { JwtAuthGuard } from 'src/common/guards/auth/jwt-auth.guard';
+import { UserId } from '../common/decorators/user_id.decorator';
+import { JwtAuthGuard } from '../common/guards/auth/jwt-auth.guard';
 
 @UseGuards(JwtAuthGuard)
 @Controller('quest')

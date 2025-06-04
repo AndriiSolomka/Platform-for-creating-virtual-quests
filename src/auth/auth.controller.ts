@@ -1,13 +1,13 @@
 import { Controller, Post, UseGuards, Query, Get } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CookieService } from 'src/cookie/cookie.service';
+import { CookieService } from '../cookie/cookie.service';
 import { LocalAuthGuard } from 'src/common/guards/auth/local-auth.guard';
-import { UserService } from 'src/user/user.service';
-import { GoogleAuthGuard } from 'src/common/guards/auth/google-auth.guard';
+import { UserService } from '../user/user.service';
+import { GoogleAuthGuard } from '../common/guards/auth/google-auth.guard';
 import {
   Auth,
   AuthRequestParams,
-} from 'src/common/decorators/auth-request.decorator';
+} from '../common/decorators/auth-request.decorator';
 
 @Controller('auth')
 export class AuthController {

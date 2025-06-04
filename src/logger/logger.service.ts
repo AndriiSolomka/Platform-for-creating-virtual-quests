@@ -1,6 +1,6 @@
 import { Injectable, LoggerService } from '@nestjs/common';
-import { APP_LOG_FILE_PATH } from 'src/utils/logger/logger.config';
-import { createPinoLogger } from 'src/utils/logger/logger.factory';
+import { APP_LOG_FILE_PATH } from '../utils/logger/logger.config';
+import { createPinoLogger } from '../utils/logger/logger.factory';
 
 @Injectable()
 export class AppLoggerService implements LoggerService {

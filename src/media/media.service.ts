@@ -7,9 +7,9 @@ import {
   ensureDirExists,
   getUploadDir,
   saveBufferToFile,
-} from 'src/utils/media/file-system';
+} from '../utils/media/file-system';
 import * as path from 'path';
-import { DirNames } from 'src/constants/enum/media/media';
+import { DirNames } from '../constants/enum/media/media';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()

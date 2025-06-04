@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { Test, TestingModule } from '@nestjs/testing';
-import { PrismaService } from './prisma.service';
-import { AppLoggerService } from '../logger/logger.service';
+import { PrismaService } from '../prisma.service';
+import { AppLoggerService } from 'src/logger/logger.service';
 
 describe('PrismaService', () => {
   let service: PrismaService;

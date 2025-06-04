@@ -3,7 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { generateToken } from 'src/utils/token/token';
+import { generateToken } from '../utils/token/token';
 import { EmailConfirmTokenRepository } from './email-confirm-token.repository';
 import { TIMES } from 'src/constants/enum/email-confirm/token.enum';
 

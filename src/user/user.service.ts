@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { hashPassword } from 'src/utils/password/hash';
+import { hashPassword } from '../utils/password/hash';
 import { UserRepository } from './user.repository';
 import {
   UserAlreadyExistsException,
   UserNotFoundException,
-} from 'src/common/exceptions/user.exceptions';
+} from '../common/exceptions/user.exceptions';
 import { User } from '@prisma/client';
-import { EmailConfirmTokenService } from 'src/email-confirm-token/email-confirm-token.service';
-import { EmailService } from 'src/email/email.service';
+import { EmailConfirmTokenService } from '../email-confirm-token/email-confirm-token.service';
+import { EmailService } from '../email/email.service';
 
 @Injectable()
 export class UserService {

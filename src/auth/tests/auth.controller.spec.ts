@@ -48,7 +48,10 @@ describe('AuthController', () => {
 
       mockAuthService.login.mockReturnValue({ access_token });
 
-      const result = controller.login(mockReq, mockRes as Response);
+      const result = controller.login({
+        req: mockReq,
+        res: mockRes as Response,
+      });
 
       expect(authService.login).toHaveBeenCalledWith(mockUser.id);
       expect(cookieService.setUserCookie).toHaveBeenCalledWith(
@@ -62,7 +65,9 @@ describe('AuthController', () => {
       const mockReq: any = {};
       const mockRes: Partial<Response> = {};
 
-      expect(() => controller.login(mockReq, mockRes as Response)).toThrow();
+      expect(() =>
+        controller.login({ req: mockReq, res: mockRes as Response }),
+      ).toThrow();
     });
 
     it('should throw if authService.login throws', () => {
@@ -74,9 +79,9 @@ describe('AuthController', () => {
         throw new Error('login error');
       });
 
-      expect(() => controller.login(mockReq, mockRes as Response)).toThrow(
-        'login error',
-      );
+      expect(() =>
+        controller.login({ req: mockReq, res: mockRes as Response }),
+      ).toThrow('login error');
     });
 
     it('should throw if cookieService.setUserCookie throws', () => {
@@ -90,9 +95,9 @@ describe('AuthController', () => {
         throw new Error('cookie error');
       });
 
-      expect(() => controller.login(mockReq, mockRes as Response)).toThrow(
-        'cookie error',
-      );
+      expect(() =>
+        controller.login({ req: mockReq, res: mockRes as Response }),
+      ).toThrow('cookie error');
     });
 
     it('should work with different user ids', () => {
@@ -103,7 +108,10 @@ describe('AuthController', () => {
 
       mockAuthService.login.mockReturnValue({ access_token });
 
-      const result = controller.login(mockReq, mockRes as Response);
+      const result = controller.login({
+        req: mockReq,
+        res: mockRes as Response,
+      });
 
       expect(authService.login).toHaveBeenCalledWith(42);
       expect(cookieService.setUserCookie).toHaveBeenCalledWith(

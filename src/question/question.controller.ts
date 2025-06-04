@@ -9,11 +9,11 @@ import {
 } from '@nestjs/common';
 import { QuestionService } from './question.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
-import { JwtAuthGuard } from 'src/common/guards/auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../common/guards/auth/jwt-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { MediaService } from 'src/media/media.service';
-import { DirNames } from 'src/constants/enum/media/media';
-import { FileSizeValidationPipe } from 'src/common/pipes/file-size-validation.pipe';
+import { MediaService } from '../media/media.service';
+import { DirNames } from '../constants/enum/media/media';
+import { FileSizeValidationPipe } from '../common/pipes/file-size-validation.pipe';
 
 @UseGuards(JwtAuthGuard)
 @Controller('question')

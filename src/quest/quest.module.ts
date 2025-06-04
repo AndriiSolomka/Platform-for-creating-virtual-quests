@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { QuestService } from './quest.service';
 import { QuestController } from './quest.controller';
 import { QuestRepository } from './quest.repository';
-import { PrismaModule } from 'src/prisma/prisma.module';
+import { PrismaModule } from '../prisma/prisma.module';
 
 @Module({
   imports: [PrismaModule],

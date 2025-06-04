@@ -1,8 +1,8 @@
 import * as nodemailer from 'nodemailer';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { EMAIL } from 'src/constants/enum/email/email.enum';
-import { IEmailPayload } from 'src/constants/interfaces/email/email.interface';
+import { EMAIL } from '../constants/enum/email/email.enum';
+import { IEmailPayload } from '../constants/interfaces/email/email.interface';
 
 @Injectable()
 export class EmailService {
