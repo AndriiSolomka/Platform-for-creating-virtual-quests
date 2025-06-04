@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { MediaService } from '../media.service';
 import * as fileSystem from '../../utils/media/file-system';
 import { DirNames } from '../../constants/enum/media/media';

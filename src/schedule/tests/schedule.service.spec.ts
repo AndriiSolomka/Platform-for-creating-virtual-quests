@@ -1,18 +1,28 @@
-import { Test, TestingModule } from '@nestjs/testing';
+/* eslint-disable */
 import { ScheduleService } from '../schedule.service';
+import { UserService } from '../../user/user.service';
 
 describe('ScheduleService', () => {
-  let service: ScheduleService;
+  let scheduleService: ScheduleService;
+  let userService: jest.Mocked<UserService>;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [ScheduleService],
-    }).compile();
+  beforeEach(() => {
+    userService = {
+      deleteUnconfirmedUsers: jest.fn().mockResolvedValue(undefined),
+    } as any;
 
-    service = module.get<ScheduleService>(ScheduleService);
+    scheduleService = new ScheduleService(userService);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  it('should call userService.deleteUnconfirmedUsers when deleteUnconfirmedUsers is triggered', async () => {
+    await scheduleService.deleteUnconfirmedUsers();
+    expect(userService.deleteUnconfirmedUsers).toHaveBeenCalled();
+  });
+
+  it('should propagate errors from userService.deleteUnconfirmedUsers', async () => {
+    userService.deleteUnconfirmedUsers.mockRejectedValueOnce(new Error('fail'));
+    await expect(scheduleService.deleteUnconfirmedUsers()).rejects.toThrow(
+      'fail',
+    );
   });
 });
