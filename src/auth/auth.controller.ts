@@ -27,8 +27,6 @@ export class AuthController {
 
   @Get('confirm')
   async confirmEmail(@Query('token') token: string) {
-    console.log(token);
-
     await this.userService.confirmEmail(token);
     return { message: 'Email confirmed successfully' };
   }
@@ -42,8 +40,6 @@ export class AuthController {
   @Get('google/callback')
   @UseGuards(GoogleAuthGuard)
   async googleAuthCallback(@Auth() { req, res }: AuthRequestParams) {
-    console.log('req.user', req.user);
-
     const { access_token } = await this.authService.login(req.user.id);
     this.cookieService.setUserCookie(res, access_token);
     return { message: 'Logged in with Google successfully' };
