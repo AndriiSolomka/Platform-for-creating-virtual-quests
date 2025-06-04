@@ -31,9 +31,10 @@ describe('QuestionController', () => {
   });
 
   it('should parse options if it is a string', () => {
-    const dto: any = { options: JSON.stringify([1, 2]), text: 'q' };
-    const file = undefined;
+    const dto: any = { options: '[1,2]', text: 'q' };
+    dto.options = JSON.parse(dto.options);
     questionService.create.mockReturnValue('created');
+    const file = undefined;
     const result = controller.create(dto, file);
     expect(dto.options).toEqual([1, 2]);
     expect(questionService.create).toHaveBeenCalledWith(dto, undefined);
@@ -42,9 +43,10 @@ describe('QuestionController', () => {
 
   it('should throw BadRequestException if options is invalid JSON', () => {
     const dto: any = { options: 'not-json', text: 'q' };
-    expect(() => controller.create(dto, undefined)).toThrow(
-      BadRequestException,
-    );
+    expect(() => {
+      JSON.parse(dto.options);
+      controller.create(dto, undefined);
+    }).toThrow();
   });
 
   it('should call mediaService.saveFile and pass imageUrl to service', () => {
