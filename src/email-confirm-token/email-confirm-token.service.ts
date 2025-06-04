@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { generateToken } from '../utils/token/token';
 import { EmailConfirmTokenRepository } from './email-confirm-token.repository';
-import { TIMES } from 'src/constants/enum/email-confirm/token.enum';
+import { TIMES } from '../constants/enum/email-confirm/token.enum';
 
 @Injectable()
 export class EmailConfirmTokenService {
