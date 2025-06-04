@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from '../auth.service';
-import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../../user/user.service';
+import { CustomJwtService } from '../../custom-jwt/custom-jwt.service';
 import { validatePassword } from '../../utils/password/hash';
 
 jest.mock('../../utils/password/hash', () => ({
@@ -11,17 +11,17 @@ jest.mock('../../utils/password/hash', () => ({
 describe('AuthService', () => {
   let service: AuthService;
   let userService: { findOneByEmail: jest.Mock };
-  let jwtService: { sign: jest.Mock };
+  let customJwtService: { sign: jest.Mock };
 
   beforeEach(async () => {
     userService = { findOneByEmail: jest.fn() };
-    jwtService = { sign: jest.fn() };
+    customJwtService = { sign: jest.fn() };
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AuthService,
         { provide: UserService, useValue: userService },
-        { provide: JwtService, useValue: jwtService },
+        { provide: CustomJwtService, useValue: customJwtService },
       ],
     }).compile();
 
@@ -33,10 +33,10 @@ describe('AuthService', () => {
   });
 
   describe('login', () => {
-    it('should return access_token', () => {
-      jwtService.sign.mockReturnValue('signed-token');
-      const result = service.login(123);
-      expect(jwtService.sign).toHaveBeenCalledWith({ user_id: 123, sub: 123 });
+    it('should return access_token', async () => {
+      customJwtService.sign.mockReturnValue('signed-token');
+      const result = await service.login(123);
+      expect(customJwtService.sign).toHaveBeenCalledWith(123);
       expect(result).toEqual({ access_token: 'signed-token' });
     });
   });

@@ -1,7 +1,7 @@
 import { Controller, Post, UseGuards, Query, Get } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CookieService } from '../cookie/cookie.service';
-import { LocalAuthGuard } from 'src/common/guards/auth/local-auth.guard';
+import { LocalAuthGuard } from '../common/guards/auth/local-auth.guard';
 import { UserService } from '../user/user.service';
 import { GoogleAuthGuard } from '../common/guards/auth/google-auth.guard';
 import {

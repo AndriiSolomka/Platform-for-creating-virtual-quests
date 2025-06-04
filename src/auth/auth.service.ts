@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { EmailConfirmException } from 'src/common/exceptions/user.exceptions';
-import { GoogleUser } from 'src/constants/interfaces/auth/auth.interface';
+import { EmailConfirmException } from '../common/exceptions/user.exceptions';
+import { GoogleUser } from '../constants/interfaces/auth/auth.interface';
 import { UserSafe } from '../constants/types/user/user.type';
-import { CustomJwtService } from 'src/custom-jwt/custom-jwt.service';
+import { CustomJwtService } from '../custom-jwt/custom-jwt.service';
 import { UserService } from '../user/user.service';
 import { validatePassword } from '../utils/password/hash';
 

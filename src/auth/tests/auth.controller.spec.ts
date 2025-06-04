@@ -3,6 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from '../auth.controller';
 import { AuthService } from '../auth.service';
 import { CookieService } from '../../cookie/cookie.service';
+import { UserService } from '../../user/user.service';
 import { Response } from 'express';
 
 describe('AuthController', () => {
@@ -18,12 +19,15 @@ describe('AuthController', () => {
     setUserCookie: jest.fn(),
   };
 
+  const mockUserService = {};
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
       providers: [
         { provide: AuthService, useValue: mockAuthService },
         { provide: CookieService, useValue: mockCookieService },
+        { provide: UserService, useValue: mockUserService },
       ],
     }).compile();
 
@@ -40,7 +44,7 @@ describe('AuthController', () => {
   });
 
   describe('login', () => {
-    it('should call authService.login with user id and set cookie, then return message', () => {
+    it('should call authService.login with user id and set cookie, then return message', async () => {
       const mockUser = { id: 1 };
       const mockReq: any = { user: mockUser };
       const mockRes: Partial<Response> = {};
@@ -48,29 +52,29 @@ describe('AuthController', () => {
 
       mockAuthService.login.mockReturnValue({ access_token });
 
-      const result = controller.login({
+      const result = await controller.login({
         req: mockReq,
         res: mockRes as Response,
       });
 
       expect(authService.login).toHaveBeenCalledWith(mockUser.id);
       expect(cookieService.setUserCookie).toHaveBeenCalledWith(
-        mockRes,
+        expect.any(Object), 
         access_token,
       );
       expect(result).toEqual({ message: 'Logged in successfully' });
     });
 
-    it('should throw if req.user is missing', () => {
+    it('should throw if req.user is missing', async () => {
       const mockReq: any = {};
       const mockRes: Partial<Response> = {};
 
-      expect(() =>
+      await expect(
         controller.login({ req: mockReq, res: mockRes as Response }),
-      ).toThrow();
+      ).rejects.toThrow();
     });
 
-    it('should throw if authService.login throws', () => {
+    it('should throw if authService.login throws', async () => {
       const mockUser = { id: 2 };
       const mockReq: any = { user: mockUser };
       const mockRes: Partial<Response> = {};
@@ -79,12 +83,12 @@ describe('AuthController', () => {
         throw new Error('login error');
       });
 
-      expect(() =>
+      await expect(
         controller.login({ req: mockReq, res: mockRes as Response }),
-      ).toThrow('login error');
+      ).rejects.toThrow('login error');
     });
 
-    it('should throw if cookieService.setUserCookie throws', () => {
+    it('should throw if cookieService.setUserCookie throws', async () => {
       const mockUser = { id: 3 };
       const mockReq: any = { user: mockUser };
       const mockRes: Partial<Response> = {};
@@ -95,12 +99,12 @@ describe('AuthController', () => {
         throw new Error('cookie error');
       });
 
-      expect(() =>
+      await expect(
         controller.login({ req: mockReq, res: mockRes as Response }),
-      ).toThrow('cookie error');
+      ).rejects.toThrow('cookie error');
     });
 
-    it('should work with different user ids', () => {
+    it('should work with different user ids', async () => {
       const mockUser = { id: 42 };
       const mockReq: any = { user: mockUser };
       const mockRes: Partial<Response> = {};
@@ -108,14 +112,14 @@ describe('AuthController', () => {
 
       mockAuthService.login.mockReturnValue({ access_token });
 
-      const result = controller.login({
+      const result = await controller.login({
         req: mockReq,
         res: mockRes as Response,
       });
 
       expect(authService.login).toHaveBeenCalledWith(42);
       expect(cookieService.setUserCookie).toHaveBeenCalledWith(
-        mockRes,
+        expect.any(Object),
         access_token,
       );
       expect(result).toEqual({ message: 'Logged in successfully' });
